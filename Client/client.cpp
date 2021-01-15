@@ -26,6 +26,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <stdlib.h>
+#include <bits/stdc++.h>
 
 
 int call_socket(char *host_name, int portnum)
@@ -36,13 +37,14 @@ int call_socket(char *host_name, int portnum)
 
 	if ((hp= gethostbyname(host_name)) == nullptr)
 	{
+	    std::cout << host_name << " does not exist" << std::endl;
 		errno= ECONNREFUSED;
 		return(-1);
 	}
 
 	memset(&s_address, 0, sizeof(struct sockaddr_in)); //Clears address space
 	memcpy((char *)&s_address.sin_addr,hp->h_addr,hp->h_length);
-	s_address.sin_family= hp->h_addrtype;
+	s_address.sin_family= AF_INET;
 	s_address.sin_port= htons(portnum);
 
 	if ((s= socket(hp->h_addrtype,SOCK_STREAM,0)) < 0)   /* get socket */
@@ -127,10 +129,9 @@ int main()
 		}
 	}
 
-	int len = input.size();
-	char *host_name = new char[len+1];
-	copy(input.begin(), input.end(), host_name);
-
+	int len = input.length();
+	char host_name[len];
+	strcpy(host_name, input.c_str());
 	while (true)
 	{
 		std::cout << "Enter the server port number:";

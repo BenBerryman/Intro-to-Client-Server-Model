@@ -92,18 +92,16 @@ int establish(int portnum)
 {
 	struct sockaddr_in s_address; //Socket info
 	int s; //Used for the creation of the actual socket
-	struct hostent *hp; //Host info
-	char myname[1024]; //Host name
+//	struct hostent *hp; //Host info
 	int opt = 1;
 
 	memset(&s_address, 0, sizeof(struct sockaddr_in)); //Clears address space
-	gethostname(myname, 1023);
-	hp = gethostbyname(myname); //Get host address info
+//	hp = gethostbyname("localhost"); //Get host address info
 
-	if (hp == NULL)
-		return -1;
+//	if (hp == NULL)
+//		return -1;
 
-	s_address.sin_family=hp->h_addrtype;
+	s_address.sin_family=AF_INET;
 	s_address.sin_port=htons(portnum); //htons() switches from little endian to network byte order, which basically swaps bytes
 
 	if ((s=socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -115,7 +113,7 @@ int establish(int portnum)
 		return -1;
 	}
 
-	setsockopt(s, SOL_SOCKET, SO_REUSEADDR | SO_REUSEADDR, &opt, sizeof(opt));
+	setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	listen(s,5);
 	return s;
 }
