@@ -1,4 +1,4 @@
-#Intro to Client-Server Model
+# Intro to Client-Server Model
 A simple weather reporting application to illustrate the client-server model.  
 **NOTE:** This application was part of a university assignment and uses library functions that may be deprecated. Adjustments are being worked on.
 
